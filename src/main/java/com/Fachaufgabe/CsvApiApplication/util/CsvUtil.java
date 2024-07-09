@@ -8,9 +8,9 @@ import java.io.IOException;
 
 @Component
 public class CsvUtil {
-    public String convertJsonToCsv(String jsonResponse) {
+    public String convertJsonToCsv(String jsonResponse) throws IOException{
         ObjectMapper objectMapper = new ObjectMapper();
-        //JsonNode rootNode = objectMapper.readTree(jsonResponse);
+        JsonNode rootNode = objectMapper.readTree(jsonResponse);
         return jsonResponse;
     }
 }

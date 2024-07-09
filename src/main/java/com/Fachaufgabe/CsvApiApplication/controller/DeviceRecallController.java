@@ -1,6 +1,7 @@
 package com.Fachaufgabe.CsvApiApplication.controller;
 
 import com.Fachaufgabe.CsvApiApplication.service.ApiService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,8 +17,13 @@ public class DeviceRecallController {
 
     @GetMapping("/download")
     public ResponseEntity<String> downloadCsv(@RequestParam String type, String value, Integer limit) {
-        String serviceResponse = apiService.fetchAndConvertToCsv(type, value, limit);
-        return ResponseEntity.ok().body(serviceResponse);
-
+        String serviceResponse = null;
+        try {
+            serviceResponse = apiService.fetchAndConvertToCsv(type, value, limit);
+            return ResponseEntity.ok().body(serviceResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to fetch and convert data: " + e.getMessage());
+        }
     }
 }
